@@ -45,12 +45,6 @@ parser.add_argument(
     help="The folder in which I should store the results file(s)",
 )
 
-parser.add_argument(
-    "--save_file",
-    default=None,
-    type=str
-)
-
 args = parser.parse_args()
 results = []
 
@@ -73,7 +67,7 @@ for benchmark_name in experiment_config["benchmarks"]:
 
     for trial in range(experiment_config["num_trials"]):
 
-        print(f"Trial number {trial}...")
+        print(f"Trial number {trial+1}/{experiment_config['num_trials']}...")
 
         best_score: float = 0.0
 
@@ -117,5 +111,8 @@ results = pd.DataFrame(
 
 print(tabulate(results, headers="keys", tablefmt="psql"))
 
-results.to_pickle(f"{args.path_to_results}/{args.save_file}.pd")
+
+save_file = args.experiment_config.split("/")[-1][:-len(".yaml")]
+
+results.to_pickle(f"{args.path_to_results}/{save_file}.pd")
 
