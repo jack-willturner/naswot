@@ -74,11 +74,12 @@ for benchmark_name in experiment_config["benchmarks"]:
         for _ in tqdm(range(experiment_config["num_samples"])):
             
             minibatch, target = train_loader.sample_minibatch()
-            model: nn.Module = search_space.sample_random_architecture(num_classes=1)
+            model: nn.Module = search_space.sample_random_architecture()
 
-            minibatch = minibatch.to(device)
+            minibatch, target = minibatch.to(device), target.to(device)
             model = model.to(device)
-            score: float = proxy.score(model, minibatch)
+
+            score: float = proxy.score(model, minibatch, target)
 
             if score > best_score:
                 best_score = score
