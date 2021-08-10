@@ -85,6 +85,8 @@ for benchmark_name in experiment_config["benchmarks"]:
                 best_score = score
                 best_model = model
 
+        best_model = best_model.cpu()
+
         results.append(
             [
                 benchmark["name"],
@@ -92,7 +94,7 @@ for benchmark_name in experiment_config["benchmarks"]:
                 best_model.arch_id,
                 experiment_config["proxy"],
                 experiment_config["num_samples"],
-                score,
+                score.detach().cpu(),
                 search_space.get_accuracy_of_model(best_model),
             ]
         )
