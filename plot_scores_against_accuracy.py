@@ -10,15 +10,15 @@ def get_fig_and_ax(n_rows=1, n_cols=1, figsize=None, aspect_ratio="wide"):
 
     figsize = get_format("InfThesis").text_width_plot(aspect_ratio=aspect_ratio)
 
-    fig, axs = plt.subplots(n_cols, n_rows, figsize=figsize)
+    fig, ax_ = plt.subplots(n_cols, n_rows, figsize=figsize)
 
     # remove top and left spines
-    axs = axs.ravel()
-    for ax_ in axs:
-        ax_.spines["top"].set_visible(False)
-        ax_.spines["right"].set_visible(False)
+    #axs = axs.ravel()
+    #for ax_ in axs:
+    ax_.spines["top"].set_visible(False)
+    ax_.spines["right"].set_visible(False)
 
-    return fig, axs
+    return fig, ax_
 
 
 def scores_against_accs(proxy, searchspace, dataloader, n_samples=100):
@@ -26,7 +26,7 @@ def scores_against_accs(proxy, searchspace, dataloader, n_samples=100):
     x = []
     y = []
 
-    for _ in n_samples:
+    for _ in range(n_samples):
         minibatch, targets = dataloader.sample_minibatch()
         model = searchspace.sample_random_architecture()
 
@@ -72,4 +72,4 @@ for dataset, data_loc, api, api_loc in workloads:
     ax.scatter(x, y)
 
     plt.tight_layout()
-    plt.savefig("example.pdf")
+    plt.savefig("plots/blockswap_nasbench201.pdf")
