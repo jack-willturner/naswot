@@ -10,18 +10,15 @@ def get_fig_and_ax(n_rows=1, n_cols=1, figsize=None, aspect_ratio="wide"):
 
     figsize = get_format("InfThesis").text_width_plot(aspect_ratio=aspect_ratio)
 
-    fig, ax_ = plt.subplots(n_cols, n_rows, figsize=figsize)
+    fig, ax = plt.subplots(n_cols, n_rows, figsize=figsize)
 
-    # remove top and left spines
-    #axs = axs.ravel()
-    #for ax_ in axs:
-    ax_.spines["top"].set_visible(False)
-    ax_.spines["right"].set_visible(False)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
 
-    return fig, ax_
+    return fig, ax
 
 
-def scores_against_accs(proxy, searchspace, dataloader, n_samples=100):
+def scores_against_accs(proxy, searchspace, dataloader, n_samples=1000):
 
     x = []
     y = []
@@ -53,10 +50,12 @@ workloads = [
     )
 ]
 
-proxy = get_proxy("Fisher")
+proxy = get_proxy("NASWOT")
 
 
 for dataset, data_loc, api, api_loc in workloads:
+
+    print(f"loading {api}...")
 
     searchspace = get_benchmark(api, path_to_api=api_loc)
     trainloader = get_data_loaders(
@@ -64,6 +63,8 @@ for dataset, data_loc, api, api_loc in workloads:
         data_loc,
         batch_size=128,
     )
+
+    print("plotting...")
 
     x, y = scores_against_accs(proxy, searchspace, trainloader)
 
@@ -73,3 +74,5 @@ for dataset, data_loc, api, api_loc in workloads:
 
     plt.tight_layout()
     plt.savefig("plots/blockswap_nasbench201.pdf")
+
+    print("done.\n")
