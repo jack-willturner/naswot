@@ -1,3 +1,4 @@
+import yaml
 import matplotlib.pyplot as plt
 from mpl_sizes import get_format
 
@@ -41,32 +42,28 @@ def scores_against_accs(proxy, searchspace, dataloader, n_samples=1000):
     return x, y
 
 
-workloads = [
-    (
-        "CIFAR10",
-        "/disk/scratch_ssd/nasbench201/cifar10",
-        "NAS-Bench-201",
-        "/disk/scratch_ssd/nasbench201/NASBench_v1_1.pth",
-    )
-]
+with open("experiment_configs/cifar_nasbench_sweep.yaml", "r") as file:
+    experiment_config = yaml.safe_load(file)
 
 proxy = get_proxy("NASWOT")
 
 
-for dataset, data_loc, api, api_loc in workloads:
+for benchmark_name in experiment_config["benchmarks"]:
 
-    print(f"loading {api}...")
+    print(f"loading {benchmark_name}...")
 
-    searchspace = get_benchmark(api, path_to_api=api_loc)
-    trainloader = get_data_loaders(
-        dataset,
-        data_loc,
+    benchmark = experiment_config["benchmarks"][benchmark_name]
+    search_space = get_benchmark(
+        benchmark["name"], path_to_api=benchmark["path_to_api"]
+    )
+    train_loader = get_data_loaders(
+        benchmark["dataset"],
+        benchmark["path_to_dataset"],
         batch_size=128,
     )
-
     print("plotting...")
 
-    x, y = scores_against_accs(proxy, searchspace, trainloader)
+    x, y = scores_against_accs(proxy, search_space, train_loader)
 
     fig, ax = get_fig_and_ax()
 
@@ -76,3 +73,12 @@ for dataset, data_loc, api, api_loc in workloads:
     plt.savefig("plots/blockswap_nasbench201.pdf")
 
     print("done.\n")
+
+
+"""
+nasbench101:
+    name: "NAS-Bench-101"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nasbench_only108.tfrecord"
+"""

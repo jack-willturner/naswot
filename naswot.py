@@ -6,13 +6,11 @@ import argparse
 import pandas as pd
 from tabulate import tabulate
 
-import torch 
+import torch
 import torch.nn as nn
 import yaml
 
 from tqdm import tqdm
-
-import time
 
 parser = argparse.ArgumentParser(
     description="Evaluate a proxy on various NAS-Benchmarks"
@@ -61,8 +59,10 @@ for benchmark_name in experiment_config["benchmarks"]:
     search_space = get_benchmark(
         benchmark["name"], path_to_api=benchmark["path_to_api"]
     )
-    train_loader= get_data_loaders(
-        benchmark["dataset"], benchmark["path_to_dataset"], batch_size=128,
+    train_loader = get_data_loaders(
+        benchmark["dataset"],
+        benchmark["path_to_dataset"],
+        batch_size=128,
     )
 
     for trial in range(experiment_config["num_trials"]):
@@ -72,7 +72,7 @@ for benchmark_name in experiment_config["benchmarks"]:
         best_score: float = 0.0
 
         for _ in tqdm(range(experiment_config["num_samples"])):
-            
+
             minibatch, target = train_loader.sample_minibatch()
             model: nn.Module = search_space.sample_random_architecture(num_classes=1)
 
@@ -112,7 +112,6 @@ results = pd.DataFrame(
 print(tabulate(results, headers="keys", tablefmt="psql"))
 
 
-save_file = args.experiment_config.split("/")[-1][:-len(".yaml")]
+save_file = args.experiment_config.split("/")[-1][: -len(".yaml")]
 
 results.to_pickle(f"{args.path_to_results}/{save_file}.pd")
-

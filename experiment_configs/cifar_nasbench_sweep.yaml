@@ -1,9 +1,44 @@
 benchmarks:
-  nasbench101:
-    name: "NAS-Bench-101"
+  nds_resnet:
+    name: "NDS_resnet"
     dataset: "CIFAR10"
     path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/nasbench_only108.tfrecord"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_pnas:
+    name: "NDS_pnas"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_enas:
+    name: "NDS_enas"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_darts:
+    name: "NDS_darts"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_darts_fix-w-d:
+    name: "NDS_darts_fix-w-d"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_amoeba:
+    name: "NDS_amoeba"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_resnext-a:
+    name: "NDS_resnext-a"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
+  nds_resnext-b:
+    name: "NDS_resnext-b"
+    dataset: "CIFAR10"
+    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
   nasbench201:
     name: "NAS-Bench-201"
     dataset: "CIFAR10"
