@@ -44,7 +44,6 @@ benchmarks:
     dataset: "CIFAR10"
     path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
     path_to_api: "/disk/scratch_ssd/nasbench201/NASBench_v1_1.pth"
-num_trials: 3
-num_samples: 10
-proxy: NASWOT
+num_trials: 500
+num_samples: [10, 100, 1000]
 save_file: "cifar_nasbench_sweep"

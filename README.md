@@ -8,7 +8,8 @@ Provide a configuration file (an example is given in `experiment_configs/cifar_n
 Then running 
 
 ```
-python naswot.py
+python nas.py --proxy NASWOT
+python nas.py --proxy Fisher
 ```
 
-should produce a results table. 
+should produce a results tables. 
