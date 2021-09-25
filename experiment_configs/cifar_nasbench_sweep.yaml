@@ -4,11 +4,6 @@ benchmarks:
     dataset: "CIFAR10"
     path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
     path_to_api: "/disk/scratch_ssd/nasbench201/nds"
-  nds_pnas:
-    name: "NDS_pnas"
-    dataset: "CIFAR10"
-    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
   nds_enas:
     name: "NDS_enas"
     dataset: "CIFAR10"
@@ -29,21 +24,11 @@ benchmarks:
     dataset: "CIFAR10"
     path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
     path_to_api: "/disk/scratch_ssd/nasbench201/nds"
-  nds_resnext-a:
-    name: "NDS_resnext-a"
-    dataset: "CIFAR10"
-    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
-  nds_resnext-b:
-    name: "NDS_resnext-b"
-    dataset: "CIFAR10"
-    path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/nds"
   nasbench201:
     name: "NAS-Bench-201"
     dataset: "CIFAR10"
     path_to_dataset: "/disk/scratch_ssd/nasbench201/cifar10"
     path_to_api: "/disk/scratch_ssd/nasbench201/NASBench_v1_1.pth"
-num_trials: 500
-num_samples: [10, 100, 1000]
+num_trials: 3
+num_samples: [10]
 save_file: "cifar_nasbench_sweep"

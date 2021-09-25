@@ -51,7 +51,6 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-results = []
 
 with open(args.experiment_config, "r") as file:
     experiment_config = yaml.safe_load(file)
@@ -61,6 +60,7 @@ proxy = get_proxy(args.proxy)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 for benchmark_name in experiment_config["benchmarks"]:
+    results = []
     print(benchmark_name + "...")
     benchmark = experiment_config["benchmarks"][benchmark_name]
 
@@ -70,7 +70,7 @@ for benchmark_name in experiment_config["benchmarks"]:
     train_loader = get_data_loaders(
         benchmark["dataset"],
         benchmark["path_to_dataset"],
-        batch_size=128,
+        batch_size=64,
     )
 
     for n_samples in experiment_config["num_samples"]:
@@ -92,9 +92,9 @@ for benchmark_name in experiment_config["benchmarks"]:
                     num_classes=num_classes
                 )
 
-                minibatch = minibatch.to(device)
+                minibatch, target = minibatch.to(device), target.to(device)
                 model = model.to(device)
-                score: float = proxy.score(model, minibatch)
+                score: float = proxy.score(model, minibatch, target)
 
                 if score > best_score:
                     best_score = score
@@ -105,7 +105,7 @@ for benchmark_name in experiment_config["benchmarks"]:
                     benchmark["name"],
                     benchmark["dataset"],
                     best_model.arch_id,
-                    experiment_config["proxy"],
+                    args.proxy,
                     experiment_config["num_samples"],
                     score,
                     search_space.get_accuracy_of_model(best_model),
@@ -128,5 +128,5 @@ for benchmark_name in experiment_config["benchmarks"]:
     print(tabulate(results, headers="keys", tablefmt="psql"))
 
     results.to_pickle(
-        f"{args.path_to_results}/{args.proxy}_{n_samples}_{experiment_config['num_trials']}.pd"
+        f"{args.path_to_results}/{benchmark_name}_{args.proxy}_{n_samples}_{experiment_config['num_trials']}.pd"
     )
